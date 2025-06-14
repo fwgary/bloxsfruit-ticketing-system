@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket - <%= ticket.subject %></title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4">Subject: <%= ticket.subject %></h1>
+    <div class="bg-gray-800 p-4 rounded-lg shadow-md mb-6">
+      <p class="mb-2"><strong>Category:</strong> <%= ticket.category %></p>
+      <p class="mb-2"><strong>Status:</strong> <%= ticket.status %></p>
+      <p class="mb-2"><strong>Staff:</strong> <%= ticket.assignedTo ? ticket.assignedTo.username : 'Not Assigned' %></p>
+      <p class="mb-2"><strong>Description:</strong> <%= ticket.description ? ticket.description : 'No description' %></p>
+      <a href="/dashboard" class="inline-block mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Dashboard</a>
+    </div>
+    <div class="bg-gray-800 p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-bold mb-4">Messages</h2>
+      <ul class="list-none space-y-4">
+        <% ticket.messages.forEach(message => { %>
+          <li class="bg-gray-700 p-4 rounded">
+            <strong><%= message.user.username %></strong> <em><%= new Date(message.dateTime).toLocaleString() %></em>
+            <p class="mt-2"><%= message.message %></p>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="bg-gray-800 p-4 rounded-lg shadow-md mb-6">
+      <form action="/ticket/<%= ticket._id %>/respond" method="POST">
+        <textarea name="message" class="w-full p-2 bg-gray-700 text-gray-100 border border-gray-600 rounded mb-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

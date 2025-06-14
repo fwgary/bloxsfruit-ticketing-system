@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    .ticket-row {
+      margin-bottom: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #4a5568; /* border-gray-700 */
+    }
+    .view-ticket-button {
+      padding: 0.01rem 1rem;
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 500; /* medium */
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+  <div class="flex">
+    <nav class="bg-gray-800 w-1/4 min-h-screen shadow-md">
+      <div class="p-4">
+        <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.png` : 'default-avatar.png' %>" class="w-12 h-12 rounded-full" alt="User Avatar">
+        <h2 class="mt-2 text-lg font-bold text-gray-100"><%= user.username %>#<%= user.discriminator %></h2>
+        <a href="/dashboard" class="block mt-4 text-blue-400 hover:text-blue-500">Regular Dashboard</a>
+      </div>
+    </nav>
+    <main class="flex-1 p-4">
+      <h1 class="text-3xl font-bold mb-6">Staff Dashboard</h1>
+      <div class="bg-gray-800 shadow-md rounded-lg p-6">
+        <table class="w-full text-gray-100">
+          <thead>
+            <tr>
+              <th class="text-left py-3 px-4">#</th>
+              <th class="text-left py-3 px-4">Status</th>
+              <th class="text-left py-3 px-4">Category</th>
+              <th class="text-left py-3 px-4">Subject</th>
+              <th class="text-left py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tickets.forEach(ticket => { %>
+              <tr class="ticket-row">
+                <td class="py-3 px-4"><%= ticket._id %></td>
+                <td class="py-3 px-4"><%= ticket.status %></td>
+                <td class="py-3 px-4"><%= ticket.category %></td>
+                <td class="py-3 px-4"><%= ticket.subject %></td>
+                <td class="py-3 px-4">
+                  <a href="/staff-ticket/<%= ticket._id %>" class="bg-blue-600 hover:bg-blue-700 text-white font-medium view-ticket-button rounded focus:outline-none focus:shadow-outline">View Ticket</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

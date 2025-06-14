@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+  <div class="flex">
+    <nav class="bg-gray-800 w-1/4 min-h-screen shadow-md">
+      <div class="p-4">
+        <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.png` : 'default-avatar.png' %>" class="w-12 h-12 rounded-full" alt="User Avatar">
+        <h2 class="mt-2 text-lg font-bold"><%= user.username %>#<%= user.discriminator %></h2>
+        <% if (user.isStaff) { %>
+          <a href="/staff-dashboard" class="block mt-2 text-blue-400">Open Staff Dashboard</a>
+        <% } %>
+        <% if (user.isManager) { %>
+          <a href="/user-management" class="block mt-2 text-blue-400">Open User Management</a>
+        <% } %> <br/>
+        <a href="/new-ticket" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300e">Open a new Ticket</a>
+      </div>
+    </nav>
+    <main class="flex-1 p-2">
+      <section class="mb-6">
+        <div class="bg-gray-800 shadow-md rounded-lg p-4">
+          <div class="flex justify-center mb-2">
+            <div class="grid grid-cols-1 gap-1 md:grid-cols-1 justify-center">
+              <a href="/dashboard" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300 text-center">Dashboard</a>
+              <a href="https://discord.gg/bloxsfruit" class="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300 text-center">Discord</a>
+              <a href="https://bloxsfruit.fwgary.space" class="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300 text-center">Main Website</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h1 class="text-2xl font-bold mb-4">My Tickets</h1>
+        <div class="bg-gray-800 shadow-md rounded-lg p-4">
+          <table class="w-full text-gray-100">
+            <thead>
+              <tr>
+                <th class="text-left py-2">#</th>
+                <th class="text-left py-2">Status</th>
+                <th class="text-left py-2">Category</th>
+                <th class="text-left py-2">Subject</th>
+                <th class="text-left py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% tickets.forEach(ticket => { if(ticket.status == 'Closed') return %>
+                <tr class="border-b border-gray-700">
+                  <td class="py-2"><%= ticket._id %></td>
+                  <td class="py-2"><%= ticket.status %></td>
+                  <td class="py-2"><%= ticket.category %></td>
+                  <td class="py-2"><%= ticket.subject %></td>
+                  <td class="py-2">
+                    <a href="/ticket/<%= ticket._id %>" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">View Ticket</a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
